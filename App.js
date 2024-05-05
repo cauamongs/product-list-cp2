@@ -1,20 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import "firebase/auth";
+import "firebase/database";
+import firebaseConfig from "./firebaseConfig";
+import { initializeApp } from "firebase/app";
+import AddItemScreen from "./screens/AdicionarItens";
+import ShoppingListScreen from "./screens/ListaCompras";
+import LoginScreen from "./screens/Login";
+import Toast from "react-native-toast-message";
+import { UserProvider } from "./contexts";
+
+initializeApp(firebaseConfig);
 
 export default function App() {
+  const [screen, setScreen] = useState("Login");
+
+  const changeScreen = (newScreen) => {
+    setScreen(newScreen);
+  };
+
+  const renderScreen = () => {
+    switch (screen) {
+      case "Login":
+        return <LoginScreen changeScreen={changeScreen} />;
+      case "ShoppingList":
+        return <ShoppingListScreen changeScreen={changeScreen} />;
+      case "AddItem":
+        return <AddItemScreen changeScreen={changeScreen} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <React.Fragment>
+      <UserProvider>
+        {renderScreen()}
+        <StatusBar style="auto" />
+        <Toast />
+      </UserProvider>
+    </React.Fragment>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
