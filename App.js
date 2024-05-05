@@ -4,7 +4,6 @@ import "firebase/auth";
 import "firebase/database";
 import firebaseConfig from "./firebaseConfig";
 import { initializeApp } from "firebase/app";
-import AddItemScreen from "./screens/AdicionarItens";
 import ShoppingListScreen from "./screens/ListaCompras";
 import LoginScreen from "./screens/Login";
 import Toast from "react-native-toast-message";
@@ -25,8 +24,7 @@ export default function App() {
         return <LoginScreen changeScreen={changeScreen} />;
       case "ShoppingList":
         return <ShoppingListScreen changeScreen={changeScreen} />;
-      case "AddItem":
-        return <AddItemScreen changeScreen={changeScreen} />;
+
       default:
         return null;
     }
